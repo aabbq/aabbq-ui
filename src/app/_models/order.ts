@@ -22,4 +22,5 @@ export class Order {
     credit_card_amount?: number;
     credit_card_bank?: string;
     credit_card_ref_num?: string;
+    total_discount?: number;
 }

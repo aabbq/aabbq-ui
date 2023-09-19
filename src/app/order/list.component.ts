@@ -38,8 +38,8 @@ export class ListComponent implements OnInit {
     dataSource: any;
     displayedColumns: string[] = [
         'id', 'transaction_date', 'or_number', 'ordered_to', 
-        'total_amount', 'payment_type', 'cash_amount', 'credit_card_amount', 'gcash_amount', 
-        'grab_amount', 'panda_amount', 'order_type', 'action'];
+        'payment_type', 'total_amount', 'cash_amount', 'credit_card_amount', 'gcash_amount', 
+        'grab_amount', 'panda_amount', 'total_discount', 'order_type', 'action'];
     @ViewChild(MatPaginator) paginator !:MatPaginator;
     @ViewChild(MatSort) sort !:MatSort;
     
@@ -113,5 +113,9 @@ export class ListComponent implements OnInit {
 
     getTotalPanda() {
         return this.orders?.map(t => t.panda_amount).reduce((acc: any, value) => acc + value, 0);    
+    }
+
+    getTotalDiscounts() {
+        return this.orders?.map(t => t.total_discount).reduce((acc: any, value) => acc + value, 0);    
     }
 }
