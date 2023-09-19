@@ -22,7 +22,7 @@
 
             <mat-form-field class="mat-25">
                 <mat-label>Payment Type</mat-label>
-                <select matNativeControl required formControlName="payment_type" matInput>
+                <select matNativeControl required formControlName="payment_type" (change)="resetPaymentAmounts()" matInput>
                     <option value="CASH">CASH</option>
                     <option value="GCASH">GCASH</option>
                     <option value="GRAB">GRAB</option>
@@ -56,7 +56,13 @@
                     min="0" #input OnlyNumber="true">
             </mat-form-field>
 
-            <mat-form-field class="mat-50">
+            <mat-form-field class="mat-25">
+                <mat-label>Total Discount</mat-label>
+                <input type="number" formControlName="total_discount" matInput 
+                    min="0" #input OnlyNumber="true">
+            </mat-form-field>
+
+            <mat-form-field class="mat-25">
                 <mat-label>Order Type</mat-label>
                 <select matNativeControl required formControlName="order_type" matInput>
                     <option value="DINEIN">DINEIN</option>
@@ -111,7 +117,7 @@
             <mat-form-field class="mat-50">
                 <mat-label>Total Amount</mat-label>
                 <!-- <input matInput disabled value="{{totalAmount | currency:'PHP'}}"> -->
-                <input formControlName="total_amount" matInput readonly>
+                <input formControlName="total_amount" [value]="form.get('total_amount')?.value | currency:'PHP'" matInput readonly>
             </mat-form-field>
 
             <!-- <mat-form-field class="mat-50">
@@ -162,21 +168,25 @@
                 <ng-container matColumnDef="qty">
                     <th mat-sort-header mat-header-cell *matHeaderCellDef> Qty </th>
                     <td mat-cell *matCellDef="let element"> {{element.qty}} </td>
+                    <td mat-footer-cell *matFooterCellDef></td>
                 </ng-container>
 
                 <ng-container matColumnDef="product">
                     <th mat-sort-header mat-header-cell *matHeaderCellDef> Product </th>
                     <td mat-cell *matCellDef="let element"> {{element.product.name}} </td>
+                    <td mat-footer-cell *matFooterCellDef style="font-weight: bold;"> Total </td>
                 </ng-container>
 
                 <ng-container matColumnDef="price">
                     <th mat-sort-header mat-header-cell *matHeaderCellDef> Price </th>
                     <td mat-cell *matCellDef="let element"> {{element.price | currency:'PHP'}} </td>
+                    <td mat-footer-cell *matFooterCellDef></td>
                 </ng-container>
 
                 <ng-container matColumnDef="total">
                     <th mat-sort-header mat-header-cell *matHeaderCellDef> Total </th>
                     <td mat-cell *matCellDef="let element"> {{element.total | currency:'PHP'}} </td>
+                    <td mat-footer-cell *matFooterCellDef style="font-weight: bold;"> {{getTotalAmount() | currency:'PHP'}} </td>
                 </ng-container>
 
                 <ng-container matColumnDef="action">
@@ -184,10 +194,13 @@
                     <td mat-cell *matCellDef="let element">
                         <button (click)="openDialog(element.id)" mat-raised-button color="warn">Remove</button>
                     </td>
+                    <td mat-footer-cell *matFooterCellDef></td>
                 </ng-container>
 
                 <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                 <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+                <tr mat-footer-row *matFooterRowDef="displayedColumns"></tr>
             </table>
         </mat-card-content>
     </mat-card>

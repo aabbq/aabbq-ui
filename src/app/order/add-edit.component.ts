@@ -90,7 +90,8 @@ export class AddEditComponent implements OnInit {
             credit_card: [false],
             credit_card_amount: [0],
             credit_card_bank: [''],
-            credit_card_ref_num: ['']
+            credit_card_ref_num: [''],
+            total_discount: [0]
             // status: [Status.ENABLED, Validators.required]
         });
 
@@ -125,7 +126,7 @@ export class AddEditComponent implements OnInit {
             this.form.get('credit_card_amount')!.valueChanges,
             this.form.get('total_amount')!.valueChanges,
         ).subscribe((res: any) => {
-            this.computeCash()
+            // this.computeCash();
         })
 
     }
@@ -144,14 +145,14 @@ export class AddEditComponent implements OnInit {
             return;
         }
 
-        if (this.form.get('gcash_amount')?.value > this.form.get('total_amount')?.value) { 
-            this.alertService.error("GCash amount must not exceed the total amount!!!", this.options);
-            return;
-        }
+        // if (this.form.get('gcash_amount')?.value > this.form.get('total_amount')?.value) { 
+        //     this.alertService.error("GCash amount must not exceed the total amount!!!", this.options);
+        //     return;
+        // }
 
         this.submitting = true;
 
-
+        
         if (this.form.get('gcash_amount')?.value > 0) { 
             this.form.get('cash_amount')?.setValue('0');
             this.form.get('grab_amount')?.setValue('0');
@@ -167,6 +168,17 @@ export class AddEditComponent implements OnInit {
             this.form.get('gcash_amount')?.setValue('0');
             this.form.get('grab_amount')?.setValue('0'); 
         }
+        // if (this.form.get('total_discount')?.value > 0) { 
+        //     const total_discount = +this.form.get('total_discount')?.value;
+        //     const total_amount = +this.form.get('total_amount')?.value;
+        //     this.form.get('total_amount')?.setValue(total_amount - total_discount);
+        // } 
+
+        // if (this.form.get('credit_card_amount')?.value > 0) { 
+        //     const cash_amount = +this.form.get('cash_amount')?.value;
+        //     const credit_card_amount = +this.form.get('credit_card_amount')?.value;
+        //     this.form.get('cash_amount')?.setValue(cash_amount - credit_card_amount); 
+        // }
 
         this.saveOrder()
             .pipe(first())
@@ -174,7 +186,9 @@ export class AddEditComponent implements OnInit {
                 next: (o: Order) => {
                     this.alertService.success('Order saved', this.options);
                     if (this.id) this.submitting = false;
-                    this.router.navigateByUrl('/orders/edit/' + o.id);
+                    this.router.navigateByUrl('/orders/edit/' + o.id).then(() => {
+                        window.location.reload();
+                    });
                 },
                 error: (error: string) => {
                     this.alertService.error(error, this.options);
@@ -272,12 +286,30 @@ export class AddEditComponent implements OnInit {
     }
 
     updateCreditCard() {
-        console.log(this.form.get('credit_card')?.value);
         if (!this.form.get('credit_card')?.value) {
             this.form.get('credit_card_amount')?.setValue(0);
             this.form.get('credit_card_bank')?.setValue('');
             this.form.get('credit_card_ref_num')?.setValue('');
         }
+    }
+
+    resetPaymentAmounts(){
+        // console.log('resetPaymentAmounts');
+        if(this.form.get('payment_type')?.value === 'CASH'){
+            console.log('resetPaymentAmounts');
+            const total_discount = +this.form.get('total_discount')?.value;
+            const total_amount = +this.form.get('total_amount')?.value;
+            console.log(total_discount + total_amount);
+            this.form.get('cash_amount')?.setValue(total_discount + total_amount);
+        }
+        // this.form.get('cash_amount')?.setValue('0');
+        this.form.get('gcash_amount')?.setValue('0');
+        this.form.get('grab_amount')?.setValue('0');
+        this.form.get('panda_amount')?.setValue('0');  
+    }
+
+    getTotalAmount() {
+        return this.orderDetails?.map(t => t.total).reduce((acc: any, value) => acc + value, 0);    
     }
 
 }

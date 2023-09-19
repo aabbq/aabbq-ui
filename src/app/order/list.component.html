@@ -43,16 +43,16 @@
                 <td mat-footer-cell *matFooterCellDef></td>
             </ng-container>
 
-            <ng-container matColumnDef="total_amount">
-                <th mat-sort-header mat-header-cell *matHeaderCellDef> Total Amount </th>
-                <td mat-cell *matCellDef="let element"> {{element.total_amount | currency:'PHP'}} </td>
-                <td mat-footer-cell *matFooterCellDef style="font-weight: bold;"> {{getTotalAmount() | currency:'PHP'}} </td>
-            </ng-container>
-
             <ng-container matColumnDef="payment_type">
                 <th mat-sort-header mat-header-cell *matHeaderCellDef> Payment Type </th>
                 <td mat-cell *matCellDef="let element"> {{element.payment_type}} </td>
                 <td mat-footer-cell *matFooterCellDef></td>
+            </ng-container>
+
+            <ng-container matColumnDef="total_amount">
+                <th mat-sort-header mat-header-cell *matHeaderCellDef> Total Amount </th>
+                <td mat-cell *matCellDef="let element"> {{element.total_amount | currency:'PHP'}} </td>
+                <td mat-footer-cell *matFooterCellDef style="font-weight: bold;"> {{getTotalAmount() | currency:'PHP'}} </td>
             </ng-container>
 
             <ng-container matColumnDef="cash_amount">
@@ -83,6 +83,12 @@
                 <th mat-sort-header mat-header-cell *matHeaderCellDef> PANDA </th>
                 <td mat-cell *matCellDef="let element"> {{element.panda_amount | currency:'PHP'}} </td>
                 <td mat-footer-cell *matFooterCellDef style="font-weight: bold;"> {{getTotalPanda() | currency:'PHP'}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="total_discount">
+                <th mat-sort-header mat-header-cell *matHeaderCellDef> DISCOUNT </th>
+                <td mat-cell *matCellDef="let element"> {{element.total_discount | currency:'PHP'}} </td>
+                <td mat-footer-cell *matFooterCellDef style="font-weight: bold; color: red;"> ( {{getTotalDiscounts() | currency:'PHP'}} )</td>
             </ng-container>
 
             <ng-container matColumnDef="order_type">
