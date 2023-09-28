@@ -15,6 +15,7 @@ import { AlertService } from '@app/_components/alert/alert.service';
 import { ProductInventoryService } from '@app/_services/product-inventory.service';
 import { Product } from '@app/_models';
 import { Observable } from 'rxjs';
+import { CutOff } from '@app/_helpers/enums/prod-inv';
 
 @Component({ 
     selector: 'product-inventory-add-edit-component',
@@ -65,6 +66,7 @@ export class AddEditComponent implements OnInit {
             total: [0],
             product_out: [0, Validators.required],
             balance_end: [0],
+            cutoff: [CutOff.AM, Validators.required]
             // status: [Status.ENABLED, Validators.required]
         });
 

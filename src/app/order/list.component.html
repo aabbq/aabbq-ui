@@ -13,6 +13,13 @@
             <mat-datepicker #picker startView="month" [startAt]="filterDate"></mat-datepicker>
         </mat-form-field>
 
+        <mat-form-field>
+            <mat-label>Filter CutOff</mat-label>
+            <mat-select [(value)]="selectedCutOff" (selectionChange)="applyFilterCutOff()">
+                <mat-option *ngFor="let cutOff of cutOffOptions" [value]="cutOff">{{ cutOff }}</mat-option>
+              </mat-select>
+        </mat-form-field>
+
         <button style="margin-left: 44%;" routerLink="add" mat-raised-button color="primary">Create</button>
         <button style="margin-left: 1%;" mat-raised-button color="warn" (click)="exportTable()"><mat-icon>grid_on</mat-icon>Export</button>
     </mat-card-header>
@@ -28,6 +35,12 @@
             <ng-container matColumnDef="transaction_date">
                 <th mat-sort-header mat-header-cell *matHeaderCellDef> Transaction Date </th>
                 <td mat-cell *matCellDef="let element"> {{element.transaction_date | date: 'MM/dd/yyyy' }} </td>
+                <td mat-footer-cell *matFooterCellDef></td>
+            </ng-container>
+
+            <ng-container matColumnDef="cutoff">
+                <th mat-sort-header mat-header-cell *matHeaderCellDef> Cut Off </th>
+                <td mat-cell *matCellDef="let element"> {{element.cutoff}} </td>
                 <td mat-footer-cell *matFooterCellDef></td>
             </ng-container>
 

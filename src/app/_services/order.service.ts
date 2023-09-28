@@ -15,8 +15,8 @@ export class OrderService {
         private http: HttpClient
     ) { }
 
-    getAll(filterDate: any) {
-        return this.http.get<Order[]>(`${environment.apiUrl}/orders/${filterDate}`);
+    getAll(filterDate: any, cut_off: string) {
+        return this.http.get<Order[]>(`${environment.apiUrl}/orders/${filterDate}/${cut_off}`);
     }
 
     create(order: Order) {

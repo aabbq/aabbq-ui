@@ -1,3 +1,4 @@
+import { CutOff } from "@app/_helpers/enums/prod-inv";
 import { OrderType } from "../_helpers/enums/order-type";
 import { PaymentType } from "../_helpers/enums/payment-type";
 import { Bank } from "./bank";
@@ -23,4 +24,5 @@ export class Order {
     credit_card_bank?: string;
     credit_card_ref_num?: string;
     total_discount?: number;
+    cutoff?: CutOff;
 }

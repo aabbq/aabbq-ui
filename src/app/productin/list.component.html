@@ -29,6 +29,11 @@
                 <td mat-cell *matCellDef="let element"> {{element.transaction_date | date: 'MM/dd/yyyy' }} </td>
             </ng-container>
 
+            <ng-container matColumnDef="cutoff">
+                <th mat-sort-header mat-header-cell *matHeaderCellDef> Cut Off </th>
+                <td mat-cell *matCellDef="let element"> {{element.cutoff}} </td>
+            </ng-container>
+
             <ng-container matColumnDef="product">
                 <th mat-sort-header mat-header-cell *matHeaderCellDef> Product </th>
                 <td mat-cell *matCellDef="let element"> {{element.product.name}} </td>
