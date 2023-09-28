@@ -15,6 +15,7 @@ import { AlertService } from '@app/_components/alert/alert.service';
 import { ProductInService } from '@app/_services/product-in.service';
 import { Product } from '@app/_models';
 import { Observable } from 'rxjs';
+import { CutOff } from '@app/_helpers/enums/prod-inv';
 
 @Component({ 
     selector: 'product-in-add-edit-component',
@@ -61,9 +62,12 @@ export class AddEditComponent implements OnInit {
         this.form = this.formBuilder.group({
             product: ['', Validators.required],
             qty: [0, Validators.required],
-            description: ['']
+            description: [''],
+            cutoff: [CutOff.AM, Validators.required]
             // status: [Status.ENABLED, Validators.required]
         });
+
+        this.loadProducts();
 
         this.title = 'Add Product In';
         if (this.id) {
@@ -79,8 +83,6 @@ export class AddEditComponent implements OnInit {
                     this.loading = false;
                 });
         }
-
-        this.loadProducts();
 
         this.filteredOptions = this.form.get('product')!.valueChanges.pipe(
             startWith(''),

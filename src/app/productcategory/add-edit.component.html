@@ -1,0 +1,37 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <mat-card>
+        <mat-card-header><h2 style="margin-top: 1%; margin-left: 1%;">{{title}}</h2></mat-card-header>
+        <mat-card-content>
+
+            <mat-form-field class="mat-50">
+                <mat-label>Name</mat-label>
+                <input type="text" formControlName="name" [ngClass]="{ 'is-invalid': submitted && f.name.errors }" matInput />
+                <mat-error *ngIf="submitted && f.name.errors">
+                    <span *ngIf="f.name.errors.required">Name is required</span>
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field class="mat-50">
+                <mat-label>Status</mat-label>
+                <select matNativeControl required formControlName="status" matInput>
+                    <option value="Enabled">Enabled</option>
+                    <option value="Disabled">Disabled</option>
+                </select>
+                <mat-error *ngIf="submitted && f.status.errors">
+                    <span *ngIf="f.status.errors.required">Status is required</span>
+                </mat-error>
+            </mat-form-field>
+
+        </mat-card-content>
+        <mat-card-footer>
+            <div style="margin: 2%; text-align: right;">
+                <button mat-raised-button type="submit" color="primary" [disabled]="submitting">
+                    <span *ngIf="submitting" class="spinner-border spinner-border-sm me-1"></span>
+                    <span *ngIf="id">Update</span>
+                    <span *ngIf="!id">Save</span>
+                </button>
+                <a routerLink="/product-categories" class="btn btn-link">Cancel</a>
+            </div>
+        </mat-card-footer>
+    </mat-card>
+</form>

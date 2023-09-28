@@ -23,6 +23,7 @@ import { ConfirmationDialog } from '@app/_components/dialog/confirmation-dialog.
 import { OrderType } from '@app/_helpers/enums/order-type';
 import { Bank } from '@app/_models';
 import { BankService } from '@app/_services';
+import { CutOff } from '@app/_helpers/enums/prod-inv';
 
 @Component({
     selector: 'order-add-edit-component',
@@ -91,7 +92,8 @@ export class AddEditComponent implements OnInit {
             credit_card_amount: [0],
             credit_card_bank: [''],
             credit_card_ref_num: [''],
-            total_discount: [0]
+            total_discount: [0],
+            cutoff: [CutOff.AM, Validators.required]
             // status: [Status.ENABLED, Validators.required]
         });
 

@@ -13,12 +13,14 @@ import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatSelectModule} from '@angular/material/select';
 
 import { TableUtil } from '@app/_helpers/table.util';
 import { FormControl } from '@angular/forms';
 import { MatNativeDateModule } from '@angular/material/core';
 import { Order } from '@app/_models/order';
 import { OrderService } from '@app/_services/order.service';
+import { CutOff } from '@app/_helpers/enums/prod-inv';
 
 @Component({ 
     selector: 'order-list-component',
@@ -28,7 +30,7 @@ import { OrderService } from '@app/_services/order.service';
     imports: [
         RouterLink, NgFor, NgIf, CommonModule, ReactiveFormsModule,
         MatCardModule, MatButtonModule, MatInputModule, MatFormFieldModule, MatTableModule, MatPaginatorModule, MatSortModule,
-        MatIconModule, MatDatepickerModule, MatNativeDateModule
+        MatIconModule, MatDatepickerModule, MatNativeDateModule, MatSelectModule
     ],
     providers: [DatePipe]
 })
@@ -37,13 +39,15 @@ export class ListComponent implements OnInit {
     orders?: Order[];
     dataSource: any;
     displayedColumns: string[] = [
-        'id', 'transaction_date', 'or_number', 'ordered_to', 
+        'id', 'transaction_date', 'cutoff', 'or_number', 'ordered_to', 
         'payment_type', 'total_amount', 'cash_amount', 'credit_card_amount', 'gcash_amount', 
         'grab_amount', 'panda_amount', 'total_discount', 'order_type', 'action'];
     @ViewChild(MatPaginator) paginator !:MatPaginator;
     @ViewChild(MatSort) sort !:MatSort;
     
     filterDate = new FormControl(new Date());
+    selectedCutOff: string = 'ALL';
+    cutOffOptions: string[] = ['ALL', 'AM', 'PM'];
 
     constructor(
         private orderService: OrderService,
@@ -51,11 +55,11 @@ export class ListComponent implements OnInit {
     ) {}
 
     ngOnInit() {
-        this.getAll(new Date());
+        this.getAll(new Date(), 'ALL');
     }
 
-    getAll(filterDate: any) {
-        this.orderService.getAll(filterDate)
+    getAll(filterDate: any, cut_off: string) {
+        this.orderService.getAll(filterDate, cut_off)
             .pipe(first())
             .subscribe(orders => {
                 this.orders = orders;
@@ -87,7 +91,7 @@ export class ListComponent implements OnInit {
 
     onDateChange(event: any) {
         const selectedDate = event.value;
-        this.getAll(new Date(selectedDate))
+        this.getAll(new Date(selectedDate), CutOff.AM)
         this.dataSource.filter = this.datePipe.transform(selectedDate, 'yyyy-MM-dd HH:mm:ss');
     }
     
@@ -117,5 +121,10 @@ export class ListComponent implements OnInit {
 
     getTotalDiscounts() {
         return this.orders?.map(t => t.total_discount).reduce((acc: any, value) => acc + value, 0);    
+    }
+
+    applyFilterCutOff() {
+        console.log('applyFilterCutOff...', this.selectedCutOff);
+        this.getAll(new Date(), this.selectedCutOff);
     }
 }

@@ -4,7 +4,7 @@
         <mat-card-header><h2 style="margin-top: 1%; margin-left: 1%;">{{title}}</h2></mat-card-header>
         <mat-card-content>
 
-            <mat-form-field class="mat-50">
+            <mat-form-field class="mat-25">
                 <mat-label>OR Number</mat-label>
                 <input type="text" formControlName="or_number" [ngClass]="{ 'is-invalid': submitted && f.or_number.errors }" matInput />
                 <mat-error *ngIf="submitted && f.or_number.errors">
@@ -12,11 +12,22 @@
                 </mat-error>
             </mat-form-field>
 
-            <mat-form-field class="mat-50">
+            <mat-form-field class="mat-25">
                 <mat-label>Ordered to</mat-label>
                 <input type="text" formControlName="ordered_to" [ngClass]="{ 'is-invalid': submitted && f.ordered_to.errors }" matInput />
                 <mat-error *ngIf="submitted && f.ordered_to.errors">
                     <span *ngIf="f.ordered_to.errors.required">Ordered To is required</span>
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field class="mat-50">
+                <mat-label>Cut Off</mat-label>
+                <select matNativeControl required formControlName="cutoff" matInput>
+                    <option value="AM">AM</option>
+                    <option value="PM">PM</option>
+                </select>
+                <mat-error *ngIf="submitted && f.cutoff.errors">
+                    <span *ngIf="f.cutoff.errors.required">Cut Off is required</span>
                 </mat-error>
             </mat-form-field>
 

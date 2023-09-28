@@ -11,6 +11,7 @@ const productsRoutes = () => import('./product/products.routes').then(x => x.PRO
 const productInventoriesRoutes = () => import('./productinventory/product-inventories.routes').then(x => x.PRODUCT_INVENTORIES_ROUTES);
 const productInsRoutes = () => import('./productin/product-ins.routes').then(x => x.PRODUCT_INS_ROUTES);
 const ordersRoutes = () => import('./order/orders.routes').then(x => x.ORDERS_ROUTES);
+const productCategoriesRoutes = () => import('./productcategory/product-categorys.routes').then(x => x.PRODUCT_CATEGORIES_ROUTES);
 
 export const APP_ROUTES: Routes = [
     { path: '', component: HomeComponent, canActivate: [authGuard] },
@@ -28,6 +29,8 @@ export const APP_ROUTES: Routes = [
     { path: 'product-ins', loadChildren: productInsRoutes, canActivate: [authGuard] },
 
     { path: 'orders', loadChildren: ordersRoutes, canActivate: [authGuard] },
+
+    { path: 'product-categories', loadChildren: productCategoriesRoutes, canActivate: [authGuard] },
 
     // otherwise redirect to home
     { path: '**', redirectTo: '' }

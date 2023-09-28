@@ -14,16 +14,17 @@ export class ProductInventoryService {
         private http: HttpClient
     ) { }
 
-    getAll(filterDate: any) {
-        return this.http.get<ProductInventory[]>(`${environment.apiUrl}/product-inventory/${filterDate}`);
+    getAll(fitlerDate: Date, cut_off: string) {
+        return this.http.get<ProductInventory[]>(`${environment.apiUrl}/product-inventory/${fitlerDate}/${cut_off}`);
     }
 
     create(productInventory: ProductInventory) {
         return this.http.post(`${environment.apiUrl}/product-inventory`, productInventory);
     }
 
-    createBatch() {
-        return this.http.post(`${environment.apiUrl}/product-inventory/create-batch`, '').pipe(
+    createBatch(cut_off: string) {
+        console.log('createBatch ', cut_off);
+        return this.http.post(`${environment.apiUrl}/product-inventory/create-batch/${cut_off}`, '').pipe(
             delay(5000)
         );
     }
