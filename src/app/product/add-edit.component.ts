@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { NgIf, NgClass } from '@angular/common';
+import { NgIf, NgClass, CommonModule } from '@angular/common';
 import { Router, ActivatedRoute, RouterLink } from '@angular/router';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
@@ -7,21 +7,25 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSelectModule } from '@angular/material/select';
-import { first } from 'rxjs/operators';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { first, map, startWith } from 'rxjs/operators';
 
-import { ProductService } from '@app/_services';
+import { ProductCategoryService, ProductService } from '@app/_services';
 import { Status } from '@app/_helpers/enums/status';
 import { UOM } from '@app/_helpers/enums/uom';
 import { AlertService } from '@app/_components/alert/alert.service';
+import { ProductCategory } from '@app/_models/product-category';
+import { Observable } from 'rxjs';
 
 @Component({ 
+    selector: 'product-add-edit-component',
     templateUrl: 'add-edit.component.html',
     styleUrls: ['products.component.css'],
     standalone: true,
     imports: [
-        NgIf, ReactiveFormsModule, NgClass, RouterLink,
+        NgIf, ReactiveFormsModule, NgClass, CommonModule, RouterLink,
         MatCardModule, MatFormFieldModule, MatInputModule, MatButtonModule,
-        MatSelectModule
+        MatSelectModule, MatAutocompleteModule
     ]
 })
 export class AddEditComponent implements OnInit {
@@ -37,12 +41,17 @@ export class AddEditComponent implements OnInit {
         keepAfterRouteChange: true
     };
 
+    categories!: ProductCategory[];
+
+    filteredOptions!: Observable<ProductCategory[]>;
+
     constructor(
         private formBuilder: FormBuilder,
         private route: ActivatedRoute,
         private router: Router,
         private productService: ProductService,
-        private alertService: AlertService
+        private alertService: AlertService,
+        private categoryService: ProductCategoryService
     ) { }
 
     ngOnInit() {
@@ -55,8 +64,10 @@ export class AddEditComponent implements OnInit {
             uom: [UOM.PC, Validators.required],
             status: [Status.ENABLED, Validators.required],
             qty: [0],
-            prices: [Validators.required],
+            category: [''],
         });
+
+        this.loadCategories();
 
         this.title = 'Add Product';
         if (this.id) {
@@ -66,11 +77,18 @@ export class AddEditComponent implements OnInit {
             this.productService.getById(this.id)
                 .pipe(first())
                 .subscribe(x => {
-                    console.log(x);
                     this.form.patchValue(x);
                     this.loading = false;
                 });
         }
+        
+        this.filteredOptions = this.form.get('category')!.valueChanges.pipe(
+            startWith(''),
+            map(value => {
+                const name = typeof value === 'string' ? value : value?.name;
+                return name ? this._listfilter(name as string) : this.categories?.slice();
+            }),
+        );
     }
 
     // convenience getter for easy access to form fields
@@ -107,5 +125,20 @@ export class AddEditComponent implements OnInit {
         return this.id
             ? this.productService.update(this.id!, this.form.value)
             : this.productService.create(this.form.value);
+    }
+
+    loadCategories() {
+        this.categoryService.getAllEnabled().subscribe(categories => {
+            this.categories = categories;
+        })
+    }
+
+    private _listfilter(name: string): ProductCategory[] {
+        const filterValue = name.toLowerCase();
+        return this.categories.filter(option => option.name?.toLowerCase().includes(filterValue));
+    }
+
+    displayFn(category: string): string {
+        return category;
     }
 }

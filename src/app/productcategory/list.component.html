@@ -1,5 +1,5 @@
 <mat-card style="margin: 1%">
-    <h2 style="margin-top: 1%; margin-left: 1%;">Products</h2>
+    <h2 style="margin-top: 1%; margin-left: 1%;">Product Categories</h2>
     <mat-card-header>
         <mat-form-field>
             <input matInput (keyup)="filterChange($event)" placeholder="Search here..."/>
@@ -8,38 +8,16 @@
         <button style="margin-left: 1%;" mat-raised-button color="warn" (click)="exportTable()"><mat-icon>grid_on</mat-icon>Export</button>
     </mat-card-header>
     <mat-card-content>
-        <table id="products" mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+        <table id="items" mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
 
             <ng-container matColumnDef="id">
                 <th mat-sort-header mat-header-cell *matHeaderCellDef> ID </th>
                 <td mat-cell *matCellDef="let element"> {{element.id}} </td>
             </ng-container>
 
-            <ng-container matColumnDef="category">
-                <th mat-sort-header mat-header-cell *matHeaderCellDef> Category </th>
-                <td mat-cell *matCellDef="let element"> {{element.category}} </td>
-            </ng-container>
-
             <ng-container matColumnDef="name">
                 <th mat-sort-header mat-header-cell *matHeaderCellDef> Name </th>
                 <td mat-cell *matCellDef="let element"> {{element.name}} </td>
-            </ng-container>
-
-            <!-- <ng-container matColumnDef="description">
-                <th mat-sort-header mat-header-cell *matHeaderCellDef> Description </th>
-                <td mat-cell *matCellDef="let element"> 
-                    {{(element.description.length > 40) ? ((element.description).slice(0, 80) + '...') : element.description}}
-                </td>
-            </ng-container> -->
-
-            <ng-container matColumnDef="uom">
-                <th mat-sort-header mat-header-cell *matHeaderCellDef> UOM </th>
-                <td mat-cell *matCellDef="let element"> {{element.uom}} </td>
-            </ng-container>
-
-            <ng-container matColumnDef="qty">
-                <th mat-sort-header mat-header-cell *matHeaderCellDef> Qty </th>
-                <td mat-cell *matCellDef="let element"> {{element.qty}} </td>
             </ng-container>
 
             <ng-container matColumnDef="status">
@@ -51,11 +29,6 @@
                 <th mat-header-cell *matHeaderCellDef> Action </th>
                 <td mat-cell *matCellDef="let element">
                     <a routerLink="edit/{{element.id}}" class="btn btn-sm btn-primary me-1">Edit</a>
-                    <!-- <button (click)="delete(element.id)" class="btn btn-sm btn-danger btn-delete-account" [disabled]="isDeleting">
-                        <span *ngIf="isDeleting" class="spinner-border spinner-border-sm"></span>
-                        <span *ngIf="!isDeleting">Delete</span>
-                    </button> -->
-                    <button (click)="openDialog(element.id)" class="btn btn-sm btn-danger" color="warn">Delete</button>
                 </td>
             </ng-container>
 

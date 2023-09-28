@@ -12,6 +12,23 @@
             </mat-form-field>
 
             <mat-form-field class="mat-50">
+                <mat-label>Category</mat-label>
+                <input type="text"
+                        placeholder="Select..."
+                        aria-label="Category"
+                        [ngClass]="{ 'is-invalid': submitted && f.category.errors }"
+                        matInput
+                        [matAutocomplete]="auto"
+                        formControlName="category"
+                    >
+                <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" [displayWith]="displayFn">
+                <mat-option *ngFor="let option of filteredOptions | async" [value]="option.name">
+                    {{option.name}}
+                </mat-option>
+                </mat-autocomplete>
+            </mat-form-field>
+
+            <mat-form-field class="mat-50">
                 <mat-label>UOM</mat-label>
                 <select matNativeControl required formControlName="uom" matInput>
                     <option value="PC">PC</option>

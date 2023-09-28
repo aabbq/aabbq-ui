@@ -9,14 +9,14 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatSelectModule } from '@angular/material/select';
 import { first } from 'rxjs/operators';
 
-import { BankService } from '@app/_services';
+import { ProductCategoryService } from '@app/_services';
 import { Status } from '@app/_helpers/enums/status';
 import { AlertService } from '@app/_components/alert/alert.service';
 
 @Component({ 
-    selector: 'bank-add-edit-component',
+    selector: 'product-category-add-edit-component',
     templateUrl: 'add-edit.component.html',
-    styleUrls: ['banks.component.css'],
+    styleUrls: ['product-categorys.component.css'],
     standalone: true,
     imports: [
         NgIf, ReactiveFormsModule, NgClass, RouterLink,
@@ -41,7 +41,7 @@ export class AddEditComponent implements OnInit {
         private formBuilder: FormBuilder,
         private route: ActivatedRoute,
         private router: Router,
-        private bankService: BankService,
+        private productCategoryService: ProductCategoryService,
         private alertService: AlertService
     ) { }
 
@@ -51,16 +51,15 @@ export class AddEditComponent implements OnInit {
         // form with validation rules
         this.form = this.formBuilder.group({
             name: ['', Validators.required],
-            description: [''],
             status: [Status.ENABLED, Validators.required]
         });
 
-        this.title = 'Add Bank';
+        this.title = 'Add Product Category';
         if (this.id) {
             // edit mode
-            this.title = 'Edit Bank';
+            this.title = 'Edit Product Category';
             this.loading = true;
-            this.bankService.getById(this.id)
+            this.productCategoryService.getById(this.id)
                 .pipe(first())
                 .subscribe(x => {
                     this.form.patchValue(x);
@@ -84,24 +83,24 @@ export class AddEditComponent implements OnInit {
         }
         
         this.submitting = true;
-        this.saveBank()
+        this.saveProductCategory()
             .pipe(first())
             .subscribe({
                 next: () => {
-                    this.alertService.success('Bank saved', this.options);
-                    this.router.navigateByUrl('/banks');
+                    this.alertService.success('Product Category saved', this.options);
+                    this.router.navigateByUrl('/product-categories');
                 },
                 error: (error: string) => {
-                    this.alertService.error(error, this.options);
+                    this.alertService.error(error), this.options;
                     this.submitting = false;
                 }
             })
     }
 
-    private saveBank() {
-        // create or update bank based on id param
+    private saveProductCategory() {
+        // create or update productCategoryService based on id param
         return this.id
-            ? this.bankService.update(this.id!, this.form.value)
-            : this.bankService.create(this.form.value);
+            ? this.productCategoryService.update(this.id!, this.form.value)
+            : this.productCategoryService.create(this.form.value);
     }
 }

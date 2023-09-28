@@ -8,4 +8,5 @@ export class Product {
     uom?: UOM;
     status?: Status;
     qty?: number;
+    category?: string;
 }
