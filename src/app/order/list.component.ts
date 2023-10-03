@@ -40,7 +40,7 @@ export class ListComponent implements OnInit {
     dataSource: any;
     displayedColumns: string[] = [
         'id', 'transaction_date', 'cutoff', 'or_number', 'ordered_to', 
-        'payment_type', 'total_amount', 'cash_amount', 'credit_card_amount', 'gcash_amount', 
+        'payment_type', 'detail_total_amount', 'total_amount', 'cash_amount', 'credit_card_amount', 'gcash_amount', 
         'grab_amount', 'panda_amount', 'total_discount', 'order_type', 'action'];
     @ViewChild(MatPaginator) paginator !:MatPaginator;
     @ViewChild(MatSort) sort !:MatSort;
@@ -96,7 +96,14 @@ export class ListComponent implements OnInit {
     }
     
     getTotalAmount() {
-        return this.orders?.map(t => t.total_amount).reduce((acc: any, value) => acc + value, 0);    
+        return this.orders?.map(t => t.total_amount).reduce((acc: any, value) => acc + value, 0);
+        // let totalDetailAmount = 0;
+        // this.orders?.forEach(o => {
+        //     o.details?.forEach(d =>{
+        //         totalDetailAmount += d.total ? d.total : 0;
+        //     })
+        // })
+        // return totalDetailAmount;
     }
 
     getTotalCash() {
@@ -124,7 +131,6 @@ export class ListComponent implements OnInit {
     }
 
     applyFilterCutOff() {
-        console.log('applyFilterCutOff...', this.selectedCutOff);
         this.getAll(new Date(), this.selectedCutOff);
     }
 }

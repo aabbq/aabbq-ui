@@ -55,7 +55,7 @@ export class AddEditComponent implements OnInit {
 
     filteredOptions!: Observable<Bank[]>;
 
-    orderDetails!: OrderDetail[];
+    orderDetails!: OrderDetail[] | undefined;
     dataSource: any;
     displayedColumns: string[] = ['product', 'qty', 'price', 'total', 'action'];
 
