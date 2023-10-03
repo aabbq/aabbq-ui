@@ -5,7 +5,7 @@ export class OrderDetail {
     product?: Product;
     qty?: number;
     price?: number;
-    total?: number;
+    total?: number | undefined;
     order?: {
         id?: string;
     }
