@@ -93,7 +93,8 @@ export class AddEditComponent implements OnInit {
             credit_card_bank: [''],
             credit_card_ref_num: [''],
             total_discount: [0],
-            cutoff: [CutOff.AM, Validators.required]
+            cutoff: [CutOff.AM, Validators.required],
+            delivery_fee: [0],
             // status: [Status.ENABLED, Validators.required]
         });
 

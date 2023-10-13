@@ -71,7 +71,7 @@ export class ListComponent implements OnInit {
     }
 
     exportTable() {
-        TableUtil.exportTableToExcel("products", "Products");
+        TableUtil.exportTableToExcel("products", "Products", 0, 6);
     }
 
     delete(id: string) {

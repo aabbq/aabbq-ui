@@ -76,15 +76,9 @@
             </mat-form-field>
 
             <mat-form-field class="mat-25">
-                <mat-label>Order Type</mat-label>
-                <select matNativeControl required formControlName="order_type" matInput>
-                    <option value="DINEIN">DINEIN</option>
-                    <option value="PICKUP">PICKUP</option>
-                    <option value="DELIVERY">DELIVERY</option>
-                </select>
-                <mat-error *ngIf="submitted && f.order_type.errors">
-                    <span *ngIf="f.order_type.errors.required">Order Type is required</span>
-                </mat-error>
+                <mat-label>Delivery Fee</mat-label>
+                <input type="number" formControlName="delivery_fee" matInput 
+                    min="0" #input OnlyNumber="true">
             </mat-form-field>
 
             <section class="full-width" *ngIf="this.form.get('payment_type')?.value == 'CASH'">
@@ -127,7 +121,19 @@
                 <textarea formControlName="description" matInput></textarea>
             </mat-form-field>
 
-            <mat-form-field class="mat-50">
+            <mat-form-field class="mat-25">
+                <mat-label>Order Type</mat-label>
+                <select matNativeControl required formControlName="order_type" matInput>
+                    <option value="DINEIN">DINEIN</option>
+                    <option value="PICKUP">PICKUP</option>
+                    <option value="DELIVERY">DELIVERY</option>
+                </select>
+                <mat-error *ngIf="submitted && f.order_type.errors">
+                    <span *ngIf="f.order_type.errors.required">Order Type is required</span>
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field class="mat-25">
                 <mat-label>Total Amount</mat-label>
                 <!-- <input matInput disabled value="{{totalAmount | currency:'PHP'}}"> -->
                 <!-- <input formControlName="total_amount" [value]="form.get('total_amount')?.value | currency:'PHP'" matInput readonly> -->

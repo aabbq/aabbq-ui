@@ -58,6 +58,6 @@ export class ListComponent implements OnInit {
     }
 
     exportTable() {
-        TableUtil.exportTableToExcel("items", "Items");
+        TableUtil.exportTableToExcel("items", "Items", 0, 5);
     }
 }
