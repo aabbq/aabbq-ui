@@ -34,3 +34,8 @@ mat-card {
 .mat-column-description {
     width: 20%;
 }
+
+.mat-table {
+    overflow-x: auto; /* Enable horizontal scrolling */
+    max-width: 100%; /* Adjust the width as needed */
+}

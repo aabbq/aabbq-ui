@@ -41,7 +41,7 @@ export class ListComponent implements OnInit {
     displayedColumns: string[] = [
         'id', 'transaction_date', 'cutoff', 'or_number', 'ordered_to', 
         'payment_type', 'detail_total_amount', 'total_amount', 'cash_amount', 'credit_card_amount', 'gcash_amount', 
-        'grab_amount', 'panda_amount', 'total_discount', 'order_type', 'action'];
+        'grab_amount', 'panda_amount', 'delivery_fee', 'total_discount', 'order_type', 'action'];
     @ViewChild(MatPaginator) paginator !:MatPaginator;
     @ViewChild(MatSort) sort !:MatSort;
     
@@ -86,7 +86,7 @@ export class ListComponent implements OnInit {
     }
 
     exportTable() {
-        TableUtil.exportTableToExcel("orders", "Orders");
+        TableUtil.exportTableToExcel("orders", "Orders", 0, 16);
     }
 
     onDateChange(event: any) {
@@ -95,15 +95,18 @@ export class ListComponent implements OnInit {
         this.dataSource.filter = this.datePipe.transform(selectedDate, 'yyyy-MM-dd HH:mm:ss');
     }
     
+    getTotalDetailAmount() {
+        let totalDetailAmount = 0;
+        this.orders?.forEach(o => {
+            o.details?.forEach(d =>{
+                totalDetailAmount += d.total ? d.total : 0;
+            })
+        })
+        return totalDetailAmount;
+    }
+
     getTotalAmount() {
         return this.orders?.map(t => t.total_amount).reduce((acc: any, value) => acc + value, 0);
-        // let totalDetailAmount = 0;
-        // this.orders?.forEach(o => {
-        //     o.details?.forEach(d =>{
-        //         totalDetailAmount += d.total ? d.total : 0;
-        //     })
-        // })
-        // return totalDetailAmount;
     }
 
     getTotalCash() {
@@ -128,6 +131,10 @@ export class ListComponent implements OnInit {
 
     getTotalDiscounts() {
         return this.orders?.map(t => t.total_discount).reduce((acc: any, value) => acc + value, 0);    
+    }
+
+    getTotalDeliveryFees() {
+        return this.orders?.map(t => t.delivery_fee).reduce((acc: any, value) => acc + value, 0);    
     }
 
     applyFilterCutOff() {

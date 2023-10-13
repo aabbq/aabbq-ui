@@ -24,7 +24,7 @@
         <button style="margin-left: 1%;" mat-raised-button color="warn" (click)="exportTable()"><mat-icon>grid_on</mat-icon>Export</button>
     </mat-card-header>
     <mat-card-content>
-        <table id="orders" mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+        <mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8" id="orders">
 
             <ng-container matColumnDef="id">
                 <th mat-sort-header mat-header-cell *matHeaderCellDef> ID </th>
@@ -65,7 +65,7 @@
             <ng-container matColumnDef="detail_total_amount">
                 <th mat-sort-header mat-header-cell *matHeaderCellDef> Detail Amount </th>
                 <td mat-cell *matCellDef="let element"> {{element.detail_total_amount | currency:'PHP'}} </td>
-                <td mat-footer-cell *matFooterCellDef style="font-weight: bold;"> {{getTotalAmount() | currency:'PHP'}} </td>
+                <td mat-footer-cell *matFooterCellDef style="font-weight: bold;"> {{getTotalDetailAmount() | currency:'PHP'}} </td>
             </ng-container>
 
             <ng-container matColumnDef="total_amount">
@@ -110,6 +110,12 @@
                 <td mat-footer-cell *matFooterCellDef style="font-weight: bold; color: red;"> ( {{getTotalDiscounts() | currency:'PHP'}} )</td>
             </ng-container>
 
+            <ng-container matColumnDef="delivery_fee">
+                <th mat-sort-header mat-header-cell *matHeaderCellDef> Delivery FEE </th>
+                <td mat-cell *matCellDef="let element"> {{element.delivery_fee | currency:'PHP'}} </td>
+                <td mat-footer-cell *matFooterCellDef style="font-weight: bold;">{{getTotalDeliveryFees() | currency:'PHP'}}</td>
+            </ng-container>
+
             <ng-container matColumnDef="order_type">
                 <th mat-sort-header mat-header-cell *matHeaderCellDef> Order Type </th>
                 <td mat-cell *matCellDef="let element"> {{element.order_type}} </td>
@@ -128,10 +134,10 @@
             <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 
             <tr mat-footer-row *matFooterRowDef="displayedColumns"></tr>
-        </table>
+        </mat-table>
     </mat-card-content>
     <br>
     <mat-card-footer>
-        <mat-paginator [pageSize]="10" [pageSizeOptions]="[10,20,50]" showFirstLastButtons></mat-paginator>
+        <mat-paginator [pageSize]="100" [pageSizeOptions]="[100,500,1000]" showFirstLastButtons></mat-paginator>
     </mat-card-footer>
 </mat-card>

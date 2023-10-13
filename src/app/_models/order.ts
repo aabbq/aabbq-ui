@@ -26,4 +26,5 @@ export class Order {
     credit_card_ref_num?: string;
     total_discount?: number;
     cutoff?: CutOff;
+    delivery_fee?: number;
 }
