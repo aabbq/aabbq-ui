@@ -41,12 +41,13 @@ export class ListComponent implements OnInit {
     productInventories?: ProductInventory[];
     dataSource: any;
     displayedColumns: string[] = [
-        'id', 'transaction_date', 'cutoff', 'product', 'balance_begin', 'product_in', 'total', 'product_out', 'balance_end', 'total_prices', 'action'
+        'id', 'transaction_date', 'cutoff', 'product', 'balance_begin', 'product_in', 'total', 
+        'product_out', 'balance_end', 'default_prices', 'grab_prices', 'panda_prices', 'total_prices', 'action'
     ];
     @ViewChild(MatPaginator) paginator !:MatPaginator;
     @ViewChild(MatSort) sort !:MatSort;
     
-    filterDate = new FormControl(new Date());
+    filterDate = new FormControl<Date | null>(null);
     selectedCutOff: string = 'ALL';
     cutOffOptions: string[] = ['ALL', 'AM', 'PM'];
 
@@ -127,6 +128,7 @@ export class ListComponent implements OnInit {
 
     onDateChange(event: any) {
         const selectedDate = event.value;
+        this.filterDate.setValue(selectedDate);
         console.log(this.datePipe.transform(selectedDate, 'MM/dd/yyyy'));
         this.getAll(new Date(selectedDate), CutOff.AM)
         this.dataSource.filter = this.datePipe.transform(selectedDate, 'yyyy-MM-dd HH:mm:ss');
