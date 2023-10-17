@@ -24,7 +24,7 @@
         <button style="margin-left: 1%;" mat-raised-button color="warn" (click)="exportTable()"><mat-icon>grid_on</mat-icon>Export</button>
     </mat-card-header>
     <mat-card-content>
-        <mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8" id="orders">
+        <mat-table [dataSource]="dataSource" matSort class="mat-table mat-elevation-z8" id="orders">
 
             <ng-container matColumnDef="id">
                 <th mat-sort-header mat-header-cell *matHeaderCellDef> ID </th>
@@ -130,7 +130,7 @@
                 <td mat-footer-cell *matFooterCellDef></td>
             </ng-container>
 
-            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
             <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 
             <tr mat-footer-row *matFooterRowDef="displayedColumns"></tr>

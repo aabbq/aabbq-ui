@@ -38,4 +38,6 @@ mat-card {
 .mat-table {
     overflow-x: auto; /* Enable horizontal scrolling */
     max-width: 100%; /* Adjust the width as needed */
+    height: 500px;
+    overflow: auto;
 }
