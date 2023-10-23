@@ -123,7 +123,7 @@ export class ListComponent implements OnInit {
     }
 
     exportTable() {
-        TableUtil.exportTableToExcel("product-inventories", "Product Inventories", 0, 10);
+        TableUtil.exportTableToExcelPI("product-inventories", "Product Inventories", 0, 13);
     }
 
     onDateChange(event: any) {
