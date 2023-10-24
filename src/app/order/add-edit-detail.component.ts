@@ -67,7 +67,7 @@ export class AddEditDetailComponent implements OnInit {
             qty: [0, Validators.required],
             price: [0, Validators.required],
             total: [0],
-            orderId: [this.orderId]
+            orderId: [this.orderId],
             // status: [Status.ENABLED, Validators.required]
         });
 
@@ -125,7 +125,9 @@ export class AddEditDetailComponent implements OnInit {
                 next: ( o: OrderDetail) => {
                     this.alertService.success('Order saved', this.options);
                     if(this.id) this.submitting = false;
-                    this.router.navigateByUrl('/orders/edit/'+o.order?.id);
+                    this.router.navigateByUrl('/orders/edit/'+o.order?.id).then(() => {
+                        window.location.reload();
+                    });
                 },
                 error: (error: string) => {
                     this.alertService.error(error, this.options);
