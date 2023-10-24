@@ -11,7 +11,9 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatTableModule, MatTableDataSource } from '@angular/material/table';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 import { first, map, startWith } from 'rxjs/operators';
+import { MatNativeDateModule } from '@angular/material/core';
 
 import { AlertService } from '@app/_components/alert/alert.service';
 import { merge, Observable, Subscription } from 'rxjs';
@@ -34,7 +36,7 @@ import { CutOff } from '@app/_helpers/enums/prod-inv';
         NgIf, ReactiveFormsModule, NgClass, CommonModule, RouterLink,
         MatCardModule, MatFormFieldModule, MatInputModule, MatButtonModule,
         MatSelectModule, MatAutocompleteModule, MatTableModule, MatDialogModule,
-        MatCheckboxModule
+        MatCheckboxModule, MatDatepickerModule, MatNativeDateModule
     ]
 })
 export class AddEditComponent implements OnInit {
@@ -95,6 +97,7 @@ export class AddEditComponent implements OnInit {
             total_discount: [0],
             cutoff: [CutOff.AM, Validators.required],
             delivery_fee: [0],
+            transaction_date: [new Date]
             // status: [Status.ENABLED, Validators.required]
         });
 
