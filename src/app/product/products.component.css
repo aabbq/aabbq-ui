@@ -17,7 +17,6 @@ mat-card {
 
 
 /* list */
-
 .mat-column-name {
     width: 20%;
 }
@@ -32,3 +31,9 @@ mat-card {
     height: 500px;
     overflow: auto;
 }
+
+.mat-header-row .mat-header-cell {
+    background-color: #2196F3; /* Change this to the desired color */
+    color: white; /* Change text color as needed */
+}
+
