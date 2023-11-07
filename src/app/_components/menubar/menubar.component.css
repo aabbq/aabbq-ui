@@ -11,3 +11,26 @@ p {
 .mat-icon {
     transform: scale(1.5);
 }
+
+/* styles.css or your component's CSS file */
+.logo {
+    width: 40px; /* Adjust the width to fit your design */
+    height: 40px; /* Adjust the height accordingly */
+    margin-right: 10px; /* Adjust the margin as needed */
+}
+
+.menu-bar {
+    color: #fff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    margin-left: 20px;
+}
+
+.current-datetime {
+    font-size: 14px;
+    padding-top: 5px;
+    padding-left: 5px;
+}
+  

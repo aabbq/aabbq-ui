@@ -12,7 +12,7 @@ import { MatBadgeModule } from '@angular/material/badge';
 
 import { AccountService } from '@app/_services';
 import { User } from '@app/_models';
-import { NgIf } from '@angular/common';
+import { NgIf, DatePipe } from '@angular/common';
 import { AlertComponent } from '../alert/alert.component';
 
 @Component({
@@ -31,7 +31,8 @@ import { AlertComponent } from '../alert/alert.component';
     MatBadgeModule,
     AlertComponent,
     NgIf, RouterLink, RouterLinkActive
-  ]
+  ],
+  providers: [DatePipe]
 })
 export class MenubarComponent {
   badgeVisible = false;
@@ -39,9 +40,14 @@ export class MenubarComponent {
 
   user?: User | null;
 
-  constructor(private accountService: AccountService) {
+  currentDateTime: string | undefined;
+  
+  constructor(private accountService: AccountService, private datePipe: DatePipe) {
     this.accountService.user.subscribe(x => this.user = x);
     if (this.user) { this.openDrawer = true; }
+
+    this.updateCurrentDateTime(); // Initial call
+    setInterval(() => this.updateCurrentDateTime(), 1000); // Update every second
   }
 
   logout() {
@@ -51,5 +57,21 @@ export class MenubarComponent {
 
   badgeVisibility() {
     this.badgeVisible = true;
+  }
+
+  updateCurrentDateTime() {
+    const currentDate = new Date();
+    // const options: Intl.DateTimeFormatOptions = {
+    //   weekday: 'long',
+    //   year: 'numeric',
+    //   month: 'long',
+    //   day: 'numeric',
+    //   hour: '2-digit',
+    //   minute: '2-digit',
+    //   second: '2-digit'
+    // };
+    // this.currentDateTime = currentDate.toLocaleDateString('en-US', options);
+    const formattedDate = this.datePipe.transform(currentDate, 'E MM/dd/yyyy \'at\' hh:mm:ss a');
+    this.currentDateTime = formattedDate as string;
   }
 }

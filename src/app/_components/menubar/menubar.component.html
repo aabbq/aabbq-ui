@@ -2,7 +2,14 @@
     <button (click)="drawer.toggle()" mat-icon-button>
         <mat-icon>menu</mat-icon>
     </button>
-    <span>AABBQ System</span>
+    <img src="assets/aabbq-logo.png" alt="Logo" class="logo">
+    <span>System</span>
+    <nav class="menu-bar">
+    <div class="current-datetime">
+        {{ currentDateTime }}
+        </div>
+    <!-- Add other menu items or content as needed -->
+    </nav>
     <span class="example-spacer"></span>
 
     <button routerLink="" mat-button>Home</button>

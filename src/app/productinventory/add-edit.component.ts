@@ -46,6 +46,8 @@ export class AddEditComponent implements OnInit {
     products!:Product[];
     filteredOptions!: Observable<Product[]>;
 
+    isDateGreaterThan: boolean = false;
+
     constructor(
         private formBuilder: FormBuilder,
         private route: ActivatedRoute,
@@ -58,6 +60,16 @@ export class AddEditComponent implements OnInit {
     ngOnInit() {
         this.id = this.route.snapshot.params['id'];
 
+        // Replace this with the date you want to check
+        const today = new Date(); // This creates a Date object representing the current date and time.
+
+        // Create a Date object for 15:00 (3:00 PM)
+        const threePM = new Date();
+        threePM.setHours(15, 0, 0, 0); // Set the time to 15:00:00.000
+        
+        // Compare the time component of the givenDate with 15:00
+        this.isDateGreaterThan = today.getTime() < threePM.getTime();
+
         // form with validation rules
         this.form = this.formBuilder.group({
             product: ['', Validators.required],
@@ -66,7 +78,7 @@ export class AddEditComponent implements OnInit {
             total: [0],
             product_out: [0, Validators.required],
             balance_end: [0],
-            cutoff: [CutOff.AM, Validators.required]
+            cutoff: [this.isDateGreaterThan ? CutOff.AM : CutOff.PM, Validators.required]
             // status: [Status.ENABLED, Validators.required]
         });
 
