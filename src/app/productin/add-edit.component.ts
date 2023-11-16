@@ -60,15 +60,18 @@ export class AddEditComponent implements OnInit {
     ngOnInit() {
         this.id = this.route.snapshot.params['id'];
 
-        // Replace this with the date you want to check
-        const today = new Date(); // This creates a Date object representing the current date and time.
+        // 11-06-2023 
+        // Get the current time
+        const currentTime = new Date();
 
-        // Create a Date object for 15:00 (3:00 PM)
-        const threePM = new Date();
-        threePM.setHours(15, 0, 0, 0); // Set the time to 15:00:00.000
-        
-        // Compare the time component of the givenDate with 15:00
-        this.isDateGreaterThan = today.getTime() < threePM.getTime();
+        // Define the start and end times
+        const startTime = new Date();
+        startTime.setHours(8, 0, 0); // Set the start time to 08:00:00 (8 AM)
+
+        const endTime = new Date();
+        endTime.setHours(15, 0, 0); // Set the end time to 15:00:00 (3 PM)
+
+        this.isDateGreaterThan = currentTime >= startTime && currentTime <= endTime;
 
         // form with validation rules
         this.form = this.formBuilder.group({
